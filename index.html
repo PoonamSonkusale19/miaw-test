@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MIAW Button Test</title>
+</head>
+<body>
+
+<h2>Test Salesforce MIAW</h2>
+<button id="startChatBtn" disabled>Chat With Us</button>
+
+<script>
+function initEmbeddedMessaging() {
+    try {
+        embeddedservice_bootstrap.settings.language = 'en_US';
+
+        embeddedservice_bootstrap.init(
+            '00DWJ000006MeWP',
+            'SRVC_MIAW',
+            'https://nylic--devrelease.sandbox.my.site.com/ESWSRVCMIAW1758536467833',
+            {
+                scrt2URL: 'https://nylic--devrelease.sandbox.my.salesforce-scrt.com'
+            }
+        );
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// Wait until MIAW is fully ready
+window.addEventListener("onEmbeddedMessagingReady", () => {
+    console.log("✅ MIAW is READY");
+
+    // Enable button only after ready
+    const btn = document.getElementById("startChatBtn");
+    btn.disabled = false;
+
+    btn.addEventListener("click", function () {
+        embeddedservice_bootstrap.utilAPI.launchChat();
+    });
+});
+</script>
+
+<script src="https://nylic--devrelease.sandbox.my.site.com/ESWSRVCMIAW1758536467833/assets/js/bootstrap.min.js"
+        onload="initEmbeddedMessaging()">
+</script>
+
+</body>
+</html>
